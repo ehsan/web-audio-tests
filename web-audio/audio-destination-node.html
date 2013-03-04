@@ -12,19 +12,40 @@
   <div id="log"></div>
   <script>
 
-var context;
+var destination;
 setup(function() {
   context = new AudioContext();
+  destination = context.destination;
 });
 
 test(function() {
-  assert_defined(context, "context is defined")
+  assert_equals(destination.numberOfInputs, 1, "destination.numberOfInputs");
+}, "destination.numberOfInputs should be 1 by default");
 
-  var destination = context.destination;
-  assert_equals(destination.numberOfInputs, 1, "should have 1 input");
-  assert_equals(destination.numberOfOutputs, 0, "should have 0 outputs");
-  assert_equals(destination.numberOfChannels, 2, "should have 2 channels by default");
-}, "destination");
+test(function() {
+  assert_equals(destination.numberOfOutputs, 0, "destination.numberOfOutputs");
+}, "destination.numberOfOutputs should be 0 by default");
+
+test(function() {
+  assert_equals(destination.numberOfChannels, 2, "destination.numberOfChannels");
+}, "destination.numberOfChannels should be 2 by default");
+
+test(function() {
+  assert_throws(
+    null,
+    function () { destination.numberOfChannels = -1; },
+    "Expected any exception to be thrown");
+}, "destination.numberOfChannels should throw an exception when set to  a non-zero value");
+
+test(function() {
+  assert_has_property(destination, "maxNumberOfChannels", "destination.maxNumberOfChannels defined?");
+}, "destination.maxNumberOfChannels should be an attribute");
+
+// TODO:
+//   - AudioDestinationNode in an OfflineAudioContext should have 0
+//     maxNumberOfChannels. And this value should not be able to be changed.
+//   - setting numberOfChannels greater than maxNumberOfChannels
+//     should throw an exception.
 
   </script>
  </body>
