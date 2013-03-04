@@ -62,14 +62,18 @@ _(attributes).forEach(function(attr) {
     assert_defined(context, "context is defined")
     assert_has_property(context, attr, "should be an attribute");
     assert_readonly(context, attr, "should be read-only");
-  }, attr);
+  }, attr,
+  { help: "http://www.w3.org/TR/webaudio/#AudioContext-section" }
+  );
 });
 
 _(methods).forEach(function(method) {
   test(function() {
     assert_defined(context, "context is defined")
     assert_is_method(context, method, "should be a method");
-  }, method);
+  }, method,
+  { help: "http://www.w3.org/TR/webaudio/#AudioContext-section" }
+  );
 });
 
   </script>
