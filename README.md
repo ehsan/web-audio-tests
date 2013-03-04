@@ -14,3 +14,8 @@ here on github.
 - Send a pull request
 - Don't touch the gh-pages branch, make all your changes in master
   (or, preferably in a branch off master).
+
+## Authors ##
+
+- [Alan Kligman](http://github.com/modeswitch/)
+- [Chris Lowis](http://github.com/chrislo/)
