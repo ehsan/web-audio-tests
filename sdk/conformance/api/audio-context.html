@@ -29,7 +29,7 @@ var methods = [
   "createGain",
   "createDelay",
   "createBiquadFilter",
-  "createWaveShape",
+  "createWaveShaper",
   "createPanner",
   "createConvolver",
   "createChannelSplitter",
@@ -68,7 +68,7 @@ _(methods).forEach(function(method) {
   test(function() {
     assert_defined(context, "context is defined")
     assert_is_method(context, method, "should be a method");
-  }, method);  
+  }, method);
 });
 
   </script>
