@@ -1,0 +1,69 @@
+<!doctype html>
+<html class="a">
+ <head>
+  <title>DelayNode interface</title>
+  <script src="/resources/testharness.js"></script>
+  <script src="/resources/testharnessreport.js"></script>
+  <script src="/resources/lodash.js"></script>
+  <script src="/resources/vendor-prefixes.js"></script>
+  <script src="/resources/helpers.js"></script>
+ </head>
+ <body class="a">
+  <div id="log"></div>
+  <script>
+
+var context;
+setup(function() {
+  context = new AudioContext();
+});
+
+test(function() {
+  node = context.createDelay();
+  assert_equals(node.numberOfInputs, 1, "numberOfInputs");
+}, "numberOfInputs should be 1 by default");
+
+test(function() {
+  node = context.createDelay();
+  assert_equals(node.numberOfOutputs, 1, "numberOfOutputs");
+}, "numberOfOutputs should be 1 by default");
+
+test(function() {
+  assert_throws(
+    'NOT_SUPPORTED_ERR',
+    function () { context.createDelay(-1); },
+    "Expected NOT_SUPPORTED_ERR to be thrown");
+}, "delay node cannot be created with maxDelayTime < 0");
+
+test(function() {
+  assert_throws(
+    'NOT_SUPPORTED_ERR',
+    function () { context.createDelay(181); },
+    "Expected NOT_SUPPORTED_ERR to be thrown");
+}, "delay node cannot be created with maxDelayTime > 180");
+
+test(function() {
+  var node = context.createDelay();
+  assert_throws(
+    null,
+    function () { node.delayTime.value = -1; },
+    "Expected exception to be thrown");
+}, "delayTime cannot be set to less than zero");
+
+test(function() {
+  var node = context.createDelay(10);
+  assert_throws(
+    null,
+    function () { node.delayTime.value = 11; },
+    "Expected exception to be thrown");
+}, "delayTime cannot be set to greater than maxDelayTime");
+
+test_implements_audio_param_interface(context.createDelay().delayTime);
+
+// TODO
+// - "When the delay time is changed, the implementation must
+//    make the transition smoothly, without introducing noticeable clicks or
+//    glitches to the audio stream." - some kind of reference test?
+
+  </script>
+ </body>
+</html>
