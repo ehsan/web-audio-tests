@@ -1,0 +1,76 @@
+<!doctype html>
+<html class="a">
+ <head>
+  <title>DelayNode IDL Test</title>
+  <script src=/resources/testharness.js></script>
+  <script src=/resources/testharnessreport.js></script>
+  <script src=/resources/idlharness.js></script>
+  <script src=/resources/webidl2/lib/webidl2.js></script>
+  <script src="js/lodash.js"></script>
+  <script src="js/vendor-prefixes.js"></script>
+  <script src="js/helpers.js"></script>
+ </head>
+ <body class="a">
+
+   <pre id="audio_node_idl">
+[NoInterfaceObject]
+interface AudioNode : EventTarget {
+
+    void connect(AudioNode destination, optional unsigned long output = 0, optional unsigned long input = 0);
+    void connect(AudioParam destination, optional unsigned long output = 0);
+    void disconnect(optional unsigned long output = 0);
+
+    readonly attribute AudioContext context;
+    readonly attribute unsigned long numberOfInputs;
+    readonly attribute unsigned long numberOfOutputs;
+
+};
+   </pre>
+
+   <pre id="audio_param_idl">
+[NoInterfaceObject]
+interface AudioParam {
+
+    attribute float value;
+    readonly attribute float computedValue;
+    readonly attribute float minValue;
+    readonly attribute float maxValue;
+    readonly attribute float defaultValue;
+
+    void setValueAtTime(float value, double startTime);
+    void linearRampToValueAtTime(float value, double endTime);
+    void exponentialRampToValueAtTime(float value, double endTime);
+
+    void setTargetAtTime(float target, double startTime, double timeConstant);
+
+    void setValueCurveAtTime(Float32Array values, double startTime, double duration);
+
+    void cancelScheduledValues(double startTime);
+
+};
+   </pre>
+
+<pre id="delay_node_idl">
+[NoInterfaceObject]
+interface DelayNode : AudioNode {
+    readonly attribute AudioParam delayTime;
+};
+   </pre>
+
+  <div id="log"></div>
+
+  <script>
+(function() {
+  var idl_array = new IdlArray();
+  idl_array.add_untested_idls(document.getElementById("audio_node_idl").textContent);
+  idl_array.add_untested_idls(document.getElementById("audio_param_idl").textContent);
+  idl_array.add_idls(document.getElementById("delay_node_idl").textContent);
+
+  delay_node = (new webkitAudioContext).createDelayNode();
+
+  idl_array.add_objects({DelayNode: ["delay_node"]});
+  idl_array.test();
+})();
+  </script>
+ </body>
+</html>
