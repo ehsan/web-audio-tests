@@ -66,7 +66,7 @@ interface DelayNode : AudioNode {
   idl_array.add_untested_idls(document.getElementById("audio_param_idl").textContent);
   idl_array.add_idls(document.getElementById("delay_node_idl").textContent);
 
-  delay_node = (new webkitAudioContext).createDelayNode();
+  delay_node = (new AudioContext).createDelay();
 
   idl_array.add_objects({DelayNode: ["delay_node"]});
   idl_array.test();
